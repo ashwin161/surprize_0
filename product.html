@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    max-width: 1100px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .details {
+    width: 50%;
+  }
+
+  .details h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .details p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #555;
+  }
+
+  .details button {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .details button:hover {
+    background-color: #0056b3;
+  }
+
+  .image {
+    width: 40%;
+    text-align: right;
+  }
+
+  .image img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  .time {
+    margin-top: 15px;
+    font-size: 14px;
+    color: gray;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  
+  <div class="details">
+    <h1 id="productName">Product Page</h1>
+    <p>This is a high-quality product with excellent features and modern design.</p>
+    <button id="buyBtn">Buy Now</button>
+    <p class="time">Time on this page: <span id="pageTime">0</span> seconds</p>
+  </div>
+
+  <div class="image">
+    <img id="productImage" src="" alt="Product Image">
+  </div>
+
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get("id");
+
+  const products = {
+    1: {name:"Laptop", image:"https://via.placeholder.com/400x300?text=Laptop"},
+    2: {name:"Smartphone", image:"https://via.placeholder.com/400x300?text=Smartphone"},
+    3: {name:"Headphones", image:"https://via.placeholder.com/400x300?text=Headphones"},
+    4: {name:"Camera", image:"https://via.placeholder.com/400x300?text=Camera"},
+    5: {name:"Smartwatch", image:"https://via.placeholder.com/400x300?text=Smartwatch"}
+  };
+
+  if(products[productId]){
+    document.getElementById("productName").textContent = products[productId].name;
+    document.getElementById("productImage").src = products[productId].image;
+  }
+
+  // Track time spent
+  let startTime = Date.now();
+  setInterval(() => {
+    let elapsed = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById("pageTime").textContent = elapsed;
+  }, 1000);
+
+  // Save stats when leaving
+  window.addEventListener("beforeunload", () => {
+    let elapsed = Math.floor((Date.now() - startTime) / 1000);
+
+    let timeKey = `product_${productId}_time`;
+    let totalTime = localStorage.getItem(timeKey) || 0;
+    localStorage.setItem(timeKey, parseInt(totalTime) + elapsed);
+
+    let visitKey = `product_${productId}_visits`;
+    let visits = localStorage.getItem(visitKey) || 0;
+    localStorage.setItem(visitKey, parseInt(visits) + 1);
+  });
+
+  // Handle conversion
+  document.getElementById("buyBtn").addEventListener("click", () => {
+    let convKey = `product_${productId}_conversions`;
+    let conversions = localStorage.getItem(convKey) || 0;
+    localStorage.setItem(convKey, parseInt(conversions) + 1);
+
+    alert("Purchase simulated!");
+  });
+</script>
+
+</body>
+</html>
