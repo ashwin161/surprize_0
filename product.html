@@ -126,14 +126,16 @@
   });
 
   // Handle conversion
+  // Log conversion
   document.getElementById("buyBtn").addEventListener("click", () => {
-    let convKey = `product_${productId}_conversions`;
-    let conversions = localStorage.getItem(convKey) || 0;
-    localStorage.setItem(convKey, parseInt(conversions) + 1);
-
-    alert("Purchase simulated!");
+    fetch('https://api.countapi.xyz/hit/asheyshop/conversions')
+      .then(res => res.json())
+      .then(data => {
+        alert("Purchase simulated! Total conversions: " + data.value);
+      });
   });
 </script>
 
 </body>
 </html>
+
