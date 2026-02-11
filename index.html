@@ -159,6 +159,13 @@
   visits++;
   localStorage.setItem("site_visits", visits);
   document.getElementById("visits").textContent = visits;
+ 
+ fetch('https://api.countapi.xyz/hit/yourdomain.com/visits')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("visits").textContent = data.value;
+  });
+
 
   // --- Unique Visitors ---
   function getCookie(name) {
@@ -208,3 +215,4 @@
 
 </body>
 </html>
+
